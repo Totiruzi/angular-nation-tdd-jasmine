@@ -15,8 +15,9 @@
             </div>
         </ng-container>
         <div class="newChip">
-            <input type="text" [(ngModel)]="newChip" [ngModelOptions]="{standalone: true}" (keydown.enter)="onAddChip()"
+            <input type="text" [(ngModel)]="newChip" [ngModelOptions]="{standalone: true}"
                 [placeholder]="'Add New Chip'" />
+            <button *ngIf="newChip" (click)="onAddChip()">:check</button>
         </div>
     </form>
 </div>
