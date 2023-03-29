@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'form-chips-jasmine';
+  title = 'form-chips';
+  selection = { value: 'test' }
 }
