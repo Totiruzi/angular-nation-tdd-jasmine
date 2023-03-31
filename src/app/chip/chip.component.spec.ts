@@ -1,17 +1,49 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ChipService } from './chip.service';
-
+import { FormsModule } from '@angular/forms';
 import { ChipComponent } from './chip.component';
 
 describe('ChipComponent', () => {
-  let service: ChipService = new ChipService()
-  let component: ChipComponent = new ChipComponent(service)
+  let component: ChipComponent;
+  let fixture: ComponentFixture<ChipComponent>;
 
-  beforeEach(async () => {
-    
+  beforeEach(() => {
+    const chipServiceStub = () => ({
+      addChip: newChip => ({}),
+      removeChip: index => ({}),
+      editChip: (index, newChip) => ({})
+    });
+    TestBed.configureTestingModule({
+      imports: [FormsModule],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [ChipComponent],
+      providers: [{ provide: ChipService, useFactory: chipServiceStub }]
+    });
+    fixture = TestBed.createComponent(ChipComponent);
+    component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('can load instance', () => {
     expect(component).toBeTruthy();
+  });
+
+  it(`chips has default value`, () => {
+    expect(component.chips).toEqual([`Alan`, `Teo`, `Alvin`]);
+  });
+
+  it(`editMode has default value`, () => {
+    expect(component.editMode).toEqual(false);
+  });
+
+  describe('onAddChip', () => {
+    it('makes expected calls', () => {
+      const chipServiceStub: ChipService = fixture.debugElement.injector.get(
+        ChipService
+      );
+      spyOn(chipServiceStub, 'addChip').and.callThrough();
+      component.onAddChip();
+      expect(chipServiceStub.addChip).toHaveBeenCalled();
+    });
   });
 });
