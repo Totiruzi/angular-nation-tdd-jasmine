@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Chip {
   id: number,
@@ -17,10 +18,18 @@ export class ChipService {
     { id: 6, label: 'Ander' },
   ];
 
+  chipsLength = new BehaviorSubject(this.chips.length);
+  iseditMode = new BehaviorSubject(false);
+  chipsList = new BehaviorSubject(this.chips);
+  
   constructor() {}
 
   getChips() {
     return this.chips;
+  }
+
+  getChipsLength() {
+    this.chipsLength.next(this.chips.length);
   }
 
   addChip(chip: string) {
